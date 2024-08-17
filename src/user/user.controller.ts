@@ -10,4 +10,8 @@ export class UserController {
   signUp(@Body() body: object): any {
     return this._userService.signUp(body);
   }
+
+  signIn(@Body() body: object) {
+    return this._userService.signIn(body);
+  }
 }
