@@ -8,7 +8,7 @@ export class UserdbService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async findOne(object: object): Promise<User> {
-    return await this.userModel.findOne(object);
+    return await this.userModel.findOne(object).lean();
   }
 
   async create(object: any): Promise<User> {

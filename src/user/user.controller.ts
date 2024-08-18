@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -11,6 +11,12 @@ export class UserController {
     return this._userService.signUp(body);
   }
 
+  @Get('confirm/:code')
+  confirmEmail(@Param() param: any) {
+    return this._userService.confirmEmail(param);
+  }
+
+  @Post('sign-in')
   signIn(@Body() body: object) {
     return this._userService.signIn(body);
   }

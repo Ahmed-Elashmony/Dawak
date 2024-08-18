@@ -23,7 +23,6 @@ const sendEmail = async ({ to, subject, html }) => {
       html,
     });
 
-    console.log('Email sent successfully');
   } catch (error) {
     throw new BadRequestException(`Error sending email, ${error}`);
   }
