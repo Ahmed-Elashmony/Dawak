@@ -3,7 +3,7 @@ import * as joi from 'joi';
 export const signUpSchema = {
   body: joi
     .object({
-      name: joi.string().required(),
+      userName: joi.string().required(),
       email: joi.string().email().required(),
       password: joi.string().required(),
       cPassword: joi.string().valid(joi.ref('password')).required(),
