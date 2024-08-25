@@ -25,7 +25,7 @@ export const updateSchema = {
   body: joi
     .object({
       address: joi.string().required(),
-      gender: joi.string().valid('male', 'female').required(),
+      gender: joi.string().valid('male', 'female'),
       phone: joi.string().required(),
     })
     .required(),

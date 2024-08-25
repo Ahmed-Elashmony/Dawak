@@ -35,7 +35,7 @@ export class UserController {
     return this._userService.signIn(body);
   }
 
-  @Patch('')
+  @Patch()
   @UsePipes(new JoiValidatePipe(updateSchema))
   @UseGuards(AuthGuard)
   update(@Body() body: object, @Req() req: any) {

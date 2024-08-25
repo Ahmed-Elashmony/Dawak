@@ -17,12 +17,11 @@ const sendEmail = async ({ to, subject, html }) => {
 
     // Send the email
     await transporter.sendMail({
-      from: process.env.EMAIL,
+      from: 'Dawak',
       to,
       subject,
       html,
     });
-
   } catch (error) {
     throw new BadRequestException(`Error sending email, ${error}`);
   }
