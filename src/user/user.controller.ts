@@ -1,7 +1,18 @@
-import { Body, Controller, Get, Param, Post, UsePipes } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Req,
+  UseGuards,
+  UsePipes,
+} from '@nestjs/common';
 import { JoiValidatePipe } from 'src/pipes/joi-validate/joi-validate.pipe';
-import { signInSchema, signUpSchema } from './user.joi';
+import { signInSchema, signUpSchema, updateSchema } from './user.joi';
 import { UserService } from './user.service';
+import { AuthGuard } from 'src/guard/auth/auth.guard';
 
 @Controller('user')
 export class UserController {
@@ -22,5 +33,12 @@ export class UserController {
   @UsePipes(new JoiValidatePipe(signInSchema))
   signIn(@Body() body: object) {
     return this._userService.signIn(body);
+  }
+
+  @Patch('')
+  @UsePipes(new JoiValidatePipe(updateSchema))
+  @UseGuards(AuthGuard)
+  update(@Body() body: object, @Req() req: any) {
+    return this._userService.update(body, req);
   }
 }

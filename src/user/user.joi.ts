@@ -20,3 +20,13 @@ export const signInSchema = {
     })
     .required(),
 };
+
+export const updateSchema = {
+  body: joi
+    .object({
+      address: joi.string().required(),
+      gender: joi.string().valid('male', 'female').required(),
+      phone: joi.string().required(),
+    })
+    .required(),
+};

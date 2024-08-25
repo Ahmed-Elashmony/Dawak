@@ -17,6 +17,12 @@ export class User {
   @Prop({ enum: ['male', 'female'] })
   gender: string;
 
+  @Prop()
+  address: string;
+
+  @Prop()
+  phone: string;
+
   @Prop({ default: false })
   confirm: boolean;
 

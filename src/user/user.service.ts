@@ -73,4 +73,12 @@ export class UserService {
 
     return { message: 'Login successful', user, token };
   }
+
+  async update(body: any, req: any): Promise<any> {
+    const user = await this._userModel.findByIdAndUpdate(
+      { _id: req.user.id },
+      body,
+    );
+    return { message: 'Updated', user };
+  }
 }
