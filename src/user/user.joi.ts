@@ -24,9 +24,9 @@ export const signInSchema = {
 export const updateSchema = {
   body: joi
     .object({
-      address: joi.string().required(),
+      address: joi.string(),
       gender: joi.string().valid('male', 'female'),
-      phone: joi.string().required(),
+      phone: joi.string(),
     })
     .required(),
 };

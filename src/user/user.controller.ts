@@ -41,4 +41,10 @@ export class UserController {
   update(@Body() body: object, @Req() req: any) {
     return this._userService.update(body, req);
   }
+
+  @Get()
+  @UseGuards(AuthGuard)
+  get(@Req() req: any) {
+    return this._userService.getUser(req);
+  }
 }

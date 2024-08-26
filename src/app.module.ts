@@ -3,14 +3,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 @Module({
-  imports: [
-    MongooseModule.forRoot(
-      'mongodb+srv://elashmony:123@cluster0.oi8sexf.mongodb.net/Dawak',
-    ),
-    UserModule,
-  ],
+  imports: [MongooseModule.forRoot(process.env.DB_Link), UserModule],
   controllers: [AppController],
   providers: [AppService],
 })

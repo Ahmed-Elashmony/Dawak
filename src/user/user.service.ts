@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserdbService } from 'DB/User/userdb/userdb.service';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
+import Cryptr from 'cryptr';
 import { confirmTemp } from 'src/utils/htmlTemp';
 import sendEmail from 'src/utils/sendEmail';
 
@@ -75,10 +76,25 @@ export class UserService {
   }
 
   async update(body: any, req: any): Promise<any> {
+    if (body.phone) {
+      const cryptr = new Cryptr(process.env.ENCRYPTION_KEY);
+      const encryptedPhone = cryptr.encrypt(body.phone);
+      body.phone = encryptedPhone;
+    }
     const user = await this._userModel.findByIdAndUpdate(
       { _id: req.user.id },
       body,
     );
     return { message: 'Updated', user };
+  }
+
+  async getUser(req: any): Promise<any> {
+    const user = await this._userModel.findById(req.user.id);
+    if (user.phone) {
+      const cryptr = new Cryptr(process.env.ENCRYPTION_KEY);
+      const phone = cryptr.decrypt(user.phone);
+      user.phone = phone;
+    }
+    return { user };
   }
 }
