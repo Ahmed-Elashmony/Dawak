@@ -4,7 +4,7 @@ import { UserdbService } from 'DB/User/userdb/userdb.service';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 import Cryptr from 'cryptr';
-import { confirmTemp } from 'src/utils/htmlTemp';
+import { confirmTemp, resetPassTemp } from 'src/utils/htmlTemp';
 import sendEmail from 'src/utils/sendEmail';
 
 @Injectable()
@@ -96,5 +96,32 @@ export class UserService {
       user.phone = phone;
     }
     return { user };
+  }
+
+  async forgetPass(body: any): Promise<any> {
+    const code = Math.floor(Math.random() * 1000000 + 1);
+    const user = await this._userModel.findOneAndUpdate(
+      { email: body.email },
+      { $set: { forgetCode: code } },
+    );
+
+    await sendEmail({
+      to: body.email,
+      subject: 'Reset Password',
+      html: resetPassTemp(code),
+    });
+
+    if (!user) throw new ConflictException('Email Not Found');
+    return { message: 'Check Your Email' };
+  }
+
+  async resetPass(body: any): Promise<any> {
+    const hashPass = await bcrypt.hash(body.password, +process.env.Salat_Round);
+    const user = await this._userModel.findOneAndUpdate(
+      { forgetCode: body.code },
+      { password: hashPass, $unset: { forgetCode: 1 } },
+    );
+    if (!user) throw new ConflictException('Please provide a valid code');
+    return { message: 'Done, Password Changed' };
   }
 }

@@ -68,7 +68,7 @@ export const confirmTemp = (link: string) => `<!DOCTYPE html>
   </body>
 </html>`;
 
-export const resetPassTemp = (code: string) => `<!DOCTYPE html>
+export const resetPassTemp = (code: number) => `<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">

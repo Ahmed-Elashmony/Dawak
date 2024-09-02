@@ -28,6 +28,9 @@ export class User {
 
   @Prop()
   activationCode: string;
+
+  @Prop({ length: 6 })
+  forgetCode: string;
 }
 
 const userSchema = SchemaFactory.createForClass(User);

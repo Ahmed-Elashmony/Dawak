@@ -10,7 +10,13 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { JoiValidatePipe } from 'src/pipes/joi-validate/joi-validate.pipe';
-import { signInSchema, signUpSchema, updateSchema } from './user.joi';
+import {
+  forgetSchema,
+  resetSchema,
+  signInSchema,
+  signUpSchema,
+  updateSchema,
+} from './user.joi';
 import { UserService } from './user.service';
 import { AuthGuard } from 'src/guard/auth/auth.guard';
 
@@ -46,5 +52,17 @@ export class UserController {
   @UseGuards(AuthGuard)
   get(@Req() req: any) {
     return this._userService.getUser(req);
+  }
+
+  @Patch('forget-password')
+  @UsePipes(new JoiValidatePipe(forgetSchema))
+  forget(@Body() body: object) {
+    return this._userService.forgetPass(body);
+  }
+
+  @Patch('reset-password')
+  @UsePipes(new JoiValidatePipe(resetSchema))
+  reset(@Body() body: object) {
+    return this._userService.resetPass(body);
   }
 }
