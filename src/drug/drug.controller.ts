@@ -1,7 +1,17 @@
-import { Body, Controller, Post, UsePipes } from '@nestjs/common';
-import { DrugService } from './drug.service';
+import {
+  Body,
+  Controller,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+  UsePipes,
+} from '@nestjs/common';
+import { AuthGuard } from 'src/guard/auth/auth.guard';
 import { JoiValidatePipe } from 'src/pipes/joi-validate/joi-validate.pipe';
-import { addSchema } from './drug.joi';
+import { addSchema, updateSchema } from './drug.joi';
+import { DrugService } from './drug.service';
+import { Roles } from 'src/decoreator/roles/roles.decorator';
 
 @Controller('drug')
 export class DrugController {
@@ -9,7 +19,17 @@ export class DrugController {
 
   @Post()
   @UsePipes(new JoiValidatePipe(addSchema))
+  @Roles(['admin'])
+  @UseGuards(AuthGuard)
   addDrug(@Body() body: object): any {
     return this._drugService.addDrug(body);
+  }
+
+  @Patch('/:name')
+  @UsePipes(new JoiValidatePipe(updateSchema))
+  @Roles(['admin'])
+  @UseGuards(AuthGuard)
+  updateDrug(@Body() body: object, @Param() param: object): any {
+    return this._drugService.updateDrug(body, param);
   }
 }

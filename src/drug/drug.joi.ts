@@ -9,5 +9,20 @@ export const addSchema = {
       category: joi.string().required(),
     })
     .required(),
-  //   query: joi.object({ x: joi.string() }).required(),
+};
+
+export const updateSchema = {
+  body: joi
+    .object({
+      name: joi.string(),
+      price: joi.number().min(1),
+      quantity: joi.number().min(1),
+      category: joi.string(),
+    })
+    .required(),
+  param: joi
+    .object({
+      name: joi.string().min(4).required(),
+    })
+    .required(),
 };

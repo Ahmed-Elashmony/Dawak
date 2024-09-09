@@ -11,6 +11,9 @@ export class User {
   @Prop({ required: true })
   password: string;
 
+  @Prop({ enum: ['admin', 'user'], default: 'user' })
+  role: string;
+
   @Prop({ min: 3, max: 100 })
   age: number;
 
