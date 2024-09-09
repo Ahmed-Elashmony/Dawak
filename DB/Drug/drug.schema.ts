@@ -1,8 +1,10 @@
 import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Pharma } from 'DB/Pharma/pharma.schema';
+import mongoose from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Drug {
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   name: string;
 
   @Prop({ required: true, min: 1 })
@@ -11,9 +13,11 @@ export class Drug {
   @Prop({ required: true })
   quantity: number;
 
-  //@Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
   @Prop({ required: true })
-  category: string; // Category
+  category: string;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Pharma', required: true })
+  pharma: Pharma;
 }
 
 const drugSchema = SchemaFactory.createForClass(Drug);
