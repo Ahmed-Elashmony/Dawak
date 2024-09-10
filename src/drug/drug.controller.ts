@@ -25,7 +25,7 @@ export class DrugController {
     return this._drugService.addDrug(body);
   }
 
-  @Patch('/:name')
+  @Patch('/:pharma/:drug')
   @UsePipes(new JoiValidatePipe(updateSchema))
   @Roles(['admin'])
   @UseGuards(AuthGuard)

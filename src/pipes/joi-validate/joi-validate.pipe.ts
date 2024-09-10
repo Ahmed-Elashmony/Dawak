@@ -4,6 +4,7 @@ import {
   Injectable,
   PipeTransform,
 } from '@nestjs/common';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class JoiValidatePipe implements PipeTransform {
@@ -25,3 +26,9 @@ export class JoiValidatePipe implements PipeTransform {
     return value;
   }
 }
+
+export const isValidObjectId = (value, helper) => {
+  return Types.ObjectId.isValid(value)
+    ? true
+    : helper.message('invalid objectId');
+};

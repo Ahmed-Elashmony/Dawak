@@ -1,4 +1,5 @@
 import * as joi from 'joi';
+import { isValidObjectId } from 'src/pipes/joi-validate/joi-validate.pipe';
 
 export const addSchema = {
   body: joi
@@ -7,6 +8,7 @@ export const addSchema = {
       price: joi.number().min(1).required(),
       quantity: joi.number().min(1).required(),
       category: joi.string().required(),
+      pharma: joi.string().custom(isValidObjectId).required(),
     })
     .required(),
 };
@@ -22,7 +24,8 @@ export const updateSchema = {
     .required(),
   param: joi
     .object({
-      name: joi.string().min(4).required(),
+      drug: joi.string().min(4).required(),
+      pharma: joi.string().custom(isValidObjectId).required(),
     })
     .required(),
 };
