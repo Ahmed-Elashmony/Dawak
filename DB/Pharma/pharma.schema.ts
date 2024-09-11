@@ -2,7 +2,11 @@ import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { User } from 'DB/User/user.schema';
 import mongoose from 'mongoose';
 
-@Schema({ timestamps: true })
+@Schema({
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true },
+})
 export class Pharma {
   @Prop({ required: true, lowercase: true, unique: true })
   name: string;
@@ -25,8 +29,14 @@ export class Pharma {
   @Prop({ default: false })
   confirmed: boolean;
 }
-
 const pharmaSchema = SchemaFactory.createForClass(Pharma);
+
+pharmaSchema.virtual('drugs', {
+  ref: 'Drug',
+  localField: '_id',
+  foreignField: 'pharma',
+});
+
 export const pharmaDBModel = MongooseModule.forFeature([
   { name: Pharma.name, schema: pharmaSchema },
 ]);

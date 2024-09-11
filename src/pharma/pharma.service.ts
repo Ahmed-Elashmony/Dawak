@@ -20,11 +20,6 @@ export class PharmaService {
     return { message: 'Pharma Fetched Successfully', pharma };
   }
 
-  async getPharma(param: any): Promise<any> {
-    const pharma = await this._pharmaModel.findById(param.id);
-    return { message: 'Pharma Fetched Successfully', pharma };
-  }
-
   async confirmPharma(param): Promise<any> {
     const pharma = await this._pharmaModel.findByIdAndUpdate(param.id, {
       confirmed: true,
@@ -37,5 +32,16 @@ export class PharmaService {
       },
     );
     return { message: 'Pharma Confirmed Successfully', pharma };
+  }
+
+  async getAllPharma(): Promise<any> {
+    const pharma = await this._pharmaModel.find({ confirmed: true });
+    return { message: 'Pharmas Fetched Successfully', pharma };
+  }
+
+  //add drugs
+  async getPharma(param: any): Promise<any> {
+    const pharma = await this._pharmaModel.findById(param.id);
+    return { message: 'Pharma Fetched Successfully', pharma };
   }
 }

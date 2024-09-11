@@ -21,7 +21,11 @@ export class PharmadbService {
   }
 
   async findById(id: any): Promise<Pharma> {
-    return await this.pharmaModel.findById(id);
+    return await this.pharmaModel
+      .findById(id)
+      .select('-__v -confirmed -createdAt -updatedAt')
+      .populate({ path: 'createdBy', select: 'userName email' })
+      .populate({ path: 'drugs', select: 'name price category' });
   }
 
   async findOneAndUpdate(object1: any, object2: any): Promise<Pharma> {
