@@ -12,7 +12,7 @@ import {
 import { PharmaService } from './pharma.service';
 import { AuthGuard } from 'src/guard/auth/auth.guard';
 import { JoiValidatePipe } from 'src/pipes/joi-validate/joi-validate.pipe';
-import { addSchema } from './pharma.joi';
+import { addSchema, updateSchema } from './pharma.joi';
 import { Roles } from 'src/decoreator/roles/roles.decorator';
 
 @Controller('pharma')
@@ -43,8 +43,18 @@ export class PharmaController {
     return this._pharmaService.getPharma(param);
   }
 
-  @Patch('/:id')
+  @Patch('/confirm/:id')
+  @Roles(['admin'])
+  @UseGuards(AuthGuard)
   confirmPharma(@Param() param: object): any {
     return this._pharmaService.confirmPharma(param);
+  }
+
+  @Patch('/:id')
+  @UsePipes(new JoiValidatePipe(updateSchema))
+  @Roles(['admin'])
+  @UseGuards(AuthGuard)
+  updatePharma(@Body() body: object, @Param() param: object): any {
+    return this._pharmaService.updatePharma(body, param);
   }
 }

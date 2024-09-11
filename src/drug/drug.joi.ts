@@ -7,7 +7,6 @@ export const addSchema = {
       name: joi.string().required(),
       price: joi.number().min(1).required(),
       quantity: joi.number().min(1).required(),
-      category: joi.string().required(),
       pharma: joi.string().custom(isValidObjectId).required(),
     })
     .required(),
@@ -19,7 +18,6 @@ export const updateSchema = {
       name: joi.string(),
       price: joi.number().min(1),
       quantity: joi.number().min(1),
-      category: joi.string(),
     })
     .required(),
   param: joi

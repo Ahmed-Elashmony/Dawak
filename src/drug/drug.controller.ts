@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Get,
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
@@ -31,5 +33,15 @@ export class DrugController {
   @UseGuards(AuthGuard)
   updateDrug(@Body() body: object, @Param() param: object): any {
     return this._drugService.updateDrug(body, param);
+  }
+
+  @Get('/search')
+  searchDrug(@Query() query: object): any {
+    return this._drugService.serachDrug(query);
+  }
+
+  @Get('/:id')
+  getDrug(@Param() param: object): any {
+    return this._drugService.getDrug(param);
   }
 }

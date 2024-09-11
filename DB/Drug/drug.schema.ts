@@ -13,9 +13,6 @@ export class Drug {
   @Prop({ required: true })
   quantity: number;
 
-  @Prop({ required: true })
-  category: string;
-
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Pharma', required: true })
   pharma: Pharma;
 }

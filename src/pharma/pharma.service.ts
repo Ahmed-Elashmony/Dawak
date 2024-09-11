@@ -20,7 +20,7 @@ export class PharmaService {
     return { message: 'Pharma Fetched Successfully', pharma };
   }
 
-  async confirmPharma(param): Promise<any> {
+  async confirmPharma(param: any): Promise<any> {
     const pharma = await this._pharmaModel.findByIdAndUpdate(param.id, {
       confirmed: true,
     });
@@ -39,9 +39,15 @@ export class PharmaService {
     return { message: 'Pharmas Fetched Successfully', pharma };
   }
 
-  //add drugs
   async getPharma(param: any): Promise<any> {
-    const pharma = await this._pharmaModel.findById(param.id);
+    const pharma = await this._pharmaModel.findByIdAndPopulate(param.id);
+    if (!pharma) throw new NotFoundException(`This Pharma doesn't exist`);
     return { message: 'Pharma Fetched Successfully', pharma };
+  }
+
+  async updatePharma(body: any, param: any): Promise<any> {
+    const pharma = await this._pharmaModel.findByIdAndUpdate(param.id, body);
+    if (!pharma) throw new NotFoundException(`This Pharma doesn't exist`);
+    return { message: 'Pharma Updated Successfully', pharma };
   }
 }

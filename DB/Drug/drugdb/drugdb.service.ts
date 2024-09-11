@@ -15,6 +15,14 @@ export class DrugdbService {
     return await this.drugModel.findOne(object);
   }
 
+  async find(object: any, skip: number = 0, limit: number = 10): Promise<any> {
+    return await this.drugModel
+      .find(object)
+      .skip(skip)
+      .limit(limit)
+      .populate({ path: 'pharma', select: 'name' });
+  }
+
   async findById(id: any): Promise<Drug> {
     return await this.drugModel.findById(id);
   }

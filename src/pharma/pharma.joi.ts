@@ -19,4 +19,9 @@ export const updateSchema = {
       phone: joi.string(),
     })
     .required(),
+  param: joi
+    .object({
+      id: joi.string().required(),
+    })
+    .required(),
 };

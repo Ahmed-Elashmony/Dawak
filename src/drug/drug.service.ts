@@ -4,12 +4,20 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { DrugdbService } from '../../DB/Drug/drugdb/drugdb.service';
+import { PharmadbService } from 'DB/Pharma/pharmadb/pharmadb.service';
 
 @Injectable()
 export class DrugService {
-  constructor(private readonly _drugModel: DrugdbService) {}
+  constructor(
+    private readonly _drugModel: DrugdbService,
+    private readonly _pharmaModel: PharmadbService,
+  ) {}
 
   async addDrug(body: any): Promise<any> {
+    const checkPharma = await this._pharmaModel.findById(body.pharma);
+    if (!checkPharma.confirmed) {
+      throw new ConflictException(`This Pharma is not confirmed yet`);
+    }
     const checkDrug = await this._drugModel.findOne({
       name: body.name,
       pharma: body.pharma,
@@ -26,5 +34,42 @@ export class DrugService {
     );
     if (!drug) throw new NotFoundException(`This drug doesn't exist`);
     return { message: 'Drug Updated Successfully', drug };
+  }
+
+  async getDrug(param: any): Promise<any> {
+    const drug = await this._drugModel.findById(param.id);
+    if (!drug) throw new NotFoundException(`This drug doesn't exist`);
+    return { message: 'Drug Fetched Successfully', drug };
+  }
+
+  async serachDrug(query: any): Promise<any> {
+    if (query.name == '' || query.name == ' ') {
+      return { message: 'Drug Fetched Successfully', drugs: [] };
+    }
+
+    // Set default values for page and limit if not provided
+    const page = parseInt(query.page) || 1;
+    const limit = parseInt(query.limit) || 10;
+
+    const skip = (page - 1) * limit;
+    if (query.pharma) {
+      const drugs = await this._drugModel.find(
+        {
+          name: { $regex: query.name, $options: 'i' },
+          pharma: query.pharma,
+        },
+        skip,
+        limit,
+      );
+      return { message: 'Drug Fetched Successfully', drugs };
+    }
+    const drugs = await this._drugModel.find(
+      {
+        name: { $regex: query.name, $options: 'i' },
+      },
+      skip,
+      limit,
+    );
+    return { message: 'Drug Fetched Successfully', drugs };
   }
 }
