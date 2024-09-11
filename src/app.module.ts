@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { DrugModule } from './drug/drug.module';
 import { PharmaModule } from './pharma/pharma.module';
+import { CartModule } from './cart/cart.module';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -14,6 +15,7 @@ dotenv.config();
     UserModule,
     DrugModule,
     PharmaModule,
+    CartModule,
   ],
   controllers: [AppController],
   providers: [AppService],

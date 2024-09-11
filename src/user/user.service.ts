@@ -4,6 +4,7 @@ import { UserdbService } from 'DB/User/userdb/userdb.service';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 import Cryptr from 'cryptr';
+import { CartService } from 'src/cart/cart.service';
 import { confirmTemp, resetPassTemp } from 'src/utils/htmlTemp';
 import sendEmail from 'src/utils/sendEmail';
 
@@ -12,6 +13,7 @@ export class UserService {
   constructor(
     private readonly _userModel: UserdbService,
     private readonly _jwtService: JwtService,
+    private readonly _cartService: CartService,
   ) {}
 
   async signUp(body: any): Promise<any> {
@@ -46,12 +48,13 @@ export class UserService {
   }
 
   async confirmEmail(param: any): Promise<any> {
-    await this._userModel.findOneAndUpdate(
+    const user = await this._userModel.findOneAndUpdate(
       {
         activationCode: param.code,
       },
       { confirm: true, $unset: { activationCode: 1 } },
     );
+    await this._cartService.createCart(user['_id']);
     return { message: 'Done' };
   }
 
