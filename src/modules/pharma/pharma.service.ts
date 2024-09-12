@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PharmadbService } from 'DB/Pharma/pharmadb/pharmadb.service';
 import { UserdbService } from 'DB/User/userdb/userdb.service';
 
@@ -10,6 +14,8 @@ export class PharmaService {
   ) {}
 
   async addPharma(body: any, req: any): Promise<any> {
+    const checkPharma = await this._pharmaModel.findOne({ name: body.name });
+    if (checkPharma) throw new ConflictException(`This Pharma already exist`);
     body.createdBy = req.user._id;
     const pharma = await this._pharmaModel.create({ ...body });
     return { message: 'Pharma Created Successfully', pharma };

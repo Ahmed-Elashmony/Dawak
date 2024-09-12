@@ -30,4 +30,8 @@ export class CartService {
       { drug: cart.drug },
     );
   }
+
+  async clearCart(user: any) {
+    return await this._cartModel.findOneAndUpdate({ user }, { drug: [] });
+  }
 }

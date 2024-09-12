@@ -35,4 +35,10 @@ export class CartController {
   async addToCart(@Body() body: any, @Req() req: any) {
     return await this._cartService.addToCart(body, req);
   }
+
+  @Patch('/clear')
+  @UseGuards(AuthGuard)
+  async clearCart(@Req() req: any) {
+    return await this._cartService.clearCart(req.user._id);
+  }
 }
