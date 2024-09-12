@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 import Cryptr from 'cryptr';
 import { CartService } from '../../modules/cart/cart.service';
-import { confirmTemp, resetPassTemp } from 'src/utils/htmlTemp';
+import { confirmTemp, resetPassTemp } from '../../utils/htmlTemp';
 import sendEmail from '../../utils/sendEmail';
 
 @Injectable()
