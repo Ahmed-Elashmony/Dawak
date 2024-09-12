@@ -56,4 +56,32 @@ export class OrderService {
     await this._cartModel.findOneAndUpdate({ user }, { drug: [] });
     return { message: 'Done' };
   }
+
+  async webhook(req: any, response: any) {
+    // This is your Stripe CLI webhook secret for testing your endpoint locally.
+    const endpointSecret = process.env.EndPointSecret;
+
+    const stripe = new Stripe(process.env.Stripe_key);
+
+    const sig = req.headers['stripe-signature'];
+
+    let event: any;
+
+    try {
+      event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+    } catch (err) {
+      return { message: `Webhook Error: ${err.message}` };
+    }
+
+    // Handle the event
+    if (event.type === 'checkout.session.completed') {
+      await this._ordermodel.findOneAndUpdate(
+        { _id: event.data.object.metadata.order_id },
+        { status: 'Paid' },
+      );
+    }
+
+    // Return a 200 response to acknowledge receipt of the event
+    response.send();
+  }
 }
