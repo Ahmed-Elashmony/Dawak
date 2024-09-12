@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { userDBModel } from 'DB/User/user.schema';
-import { UserdbService } from 'DB/User/userdb/userdb.service';
+import { userDBModel } from '../../../DB/User/user.schema';
+import { UserdbService } from '../../../DB/User/userdb/userdb.service';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { CartService } from 'src/modules/cart/cart.service';
