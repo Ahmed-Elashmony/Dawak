@@ -4,7 +4,7 @@ import { userDBModel } from 'DB/User/user.schema';
 import { UserdbService } from 'DB/User/userdb/userdb.service';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import { CartService } from 'src/cart/cart.service';
+import { CartService } from 'src/modules/cart/cart.service';
 import { CartdbService } from 'DB/Cart/cartdb/cartdb.service';
 import { cartDBModel } from 'DB/Cart/cart.schema';
 

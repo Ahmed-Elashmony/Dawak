@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { DrugdbService } from '../../DB/Drug/drugdb/drugdb.service';
+import { DrugdbService } from '../../../DB/Drug/drugdb/drugdb.service';
 import { PharmadbService } from 'DB/Pharma/pharmadb/pharmadb.service';
 
 @Injectable()
