@@ -10,10 +10,10 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { PharmaService } from './pharma.service';
-import { AuthGuard } from 'src/guard/auth/auth.guard';
-import { JoiValidatePipe } from 'src/pipes/joi-validate/joi-validate.pipe';
+import { AuthGuard } from '../../guard/auth/auth.guard';
+import { JoiValidatePipe } from '../../pipes/joi-validate/joi-validate.pipe';
 import { addSchema, updateSchema } from './pharma.joi';
-import { Roles } from 'src/decoreator/roles/roles.decorator';
+import { Roles } from '../../decoreator/roles/roles.decorator';
 
 @Controller('pharma')
 export class PharmaController {

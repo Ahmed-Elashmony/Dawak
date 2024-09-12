@@ -8,9 +8,9 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { CartService } from './cart.service';
-import { AuthGuard } from 'src/guard/auth/auth.guard';
+import { AuthGuard } from '../../guard/auth/auth.guard';
 import { addSchema } from './cart.joi';
-import { JoiValidatePipe } from 'src/pipes/joi-validate/joi-validate.pipe';
+import { JoiValidatePipe } from '../../pipes/joi-validate/joi-validate.pipe';
 
 @Controller('cart')
 export class CartController {

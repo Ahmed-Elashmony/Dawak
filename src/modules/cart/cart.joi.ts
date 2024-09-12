@@ -1,5 +1,5 @@
 import * as joi from 'joi';
-import { isValidObjectId } from 'src/pipes/joi-validate/joi-validate.pipe';
+import { isValidObjectId } from '../../pipes/joi-validate/joi-validate.pipe';
 
 export const addSchema = {
   body: joi

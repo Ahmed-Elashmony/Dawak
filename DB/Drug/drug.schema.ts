@@ -1,5 +1,5 @@
 import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Pharma } from 'DB/Pharma/pharma.schema';
+import { Pharma } from '../Pharma/pharma.schema';
 import mongoose from 'mongoose';
 
 @Schema({ timestamps: true })

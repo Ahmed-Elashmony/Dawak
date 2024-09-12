@@ -9,7 +9,7 @@ import {
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
-import { JoiValidatePipe } from 'src/pipes/joi-validate/joi-validate.pipe';
+import { JoiValidatePipe } from '../../pipes/joi-validate/joi-validate.pipe';
 import {
   forgetSchema,
   resetSchema,
@@ -18,7 +18,7 @@ import {
   updateSchema,
 } from './user.joi';
 import { UserService } from './user.service';
-import { AuthGuard } from 'src/guard/auth/auth.guard';
+import { AuthGuard } from '../../guard/auth/auth.guard';
 
 @Controller('user')
 export class UserController {

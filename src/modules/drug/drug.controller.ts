@@ -9,9 +9,9 @@ import {
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
-import { Roles } from 'src/decoreator/roles/roles.decorator';
-import { AuthGuard } from 'src/guard/auth/auth.guard';
-import { JoiValidatePipe } from 'src/pipes/joi-validate/joi-validate.pipe';
+import { Roles } from '../../decoreator/roles/roles.decorator';
+import { AuthGuard } from '../../guard/auth/auth.guard';
+import { JoiValidatePipe } from '../../pipes/joi-validate/joi-validate.pipe';
 import { addSchema, updateSchema } from './drug.joi';
 import { DrugService } from './drug.service';
 

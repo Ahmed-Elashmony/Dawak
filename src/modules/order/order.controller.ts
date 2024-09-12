@@ -1,6 +1,6 @@
 import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { OrderService } from './order.service';
-import { AuthGuard } from 'src/guard/auth/auth.guard';
+import { AuthGuard } from '../../guard/auth/auth.guard';
 
 @Controller('order')
 export class OrderController {

@@ -1,6 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
-import { CartdbService } from 'DB/Cart/cartdb/cartdb.service';
-import { OrderdbService } from 'DB/Order/orderdb/orderdb.service';
+import { CartdbService } from '../../../DB/Cart/cartdb/cartdb.service';
+import { OrderdbService } from '../../../DB/Order/orderdb/orderdb.service';
 import Stripe from 'stripe';
 
 @Injectable()

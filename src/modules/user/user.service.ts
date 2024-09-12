@@ -1,12 +1,12 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserdbService } from 'DB/User/userdb/userdb.service';
+import { UserdbService } from '../../../DB/User/userdb/userdb.service';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 import Cryptr from 'cryptr';
-import { CartService } from 'src/modules/cart/cart.service';
+import { CartService } from '../../modules/cart/cart.service';
 import { confirmTemp, resetPassTemp } from 'src/utils/htmlTemp';
-import sendEmail from 'src/utils/sendEmail';
+import sendEmail from '../../utils/sendEmail';
 
 @Injectable()
 export class UserService {
