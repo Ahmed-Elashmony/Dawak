@@ -20,10 +20,10 @@ export class OrderController {
     return await this._orderService.createOrder(body, req);
   }
 
-  @Post('webhook')
-  async webhook(@Param() param: any) {
-    return await this._orderService.webhook(param);
-  }
+  // @Post('webhook')
+  // async webhook() {
+  //   return await this._orderService.webhook();
+  // }
 
   @Get()
   @UseGuards(AuthGuard)
@@ -31,8 +31,8 @@ export class OrderController {
     return await this._orderService.orders(req);
   }
 
-  @Get('success')
-  async suceessPage() {
-    return this._orderService.sucessPage();
+  @Get('success/:id')
+  async suceessPage(@Param() param: any) {
+    return this._orderService.sucessPage(param);
   }
 }

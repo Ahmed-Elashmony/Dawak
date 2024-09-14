@@ -46,7 +46,7 @@ export class OrderService {
           },
           quantity: e.quantity,
         })),
-        success_url: 'https://dawak-553b.vercel.app/order/success',
+        success_url: `https://dawak-553b.vercel.app/order/success/${Order['_id']}`,
         cancel_url: 'https://dawak-553b.vercel.app/order/cancel',
       });
 
@@ -92,7 +92,11 @@ export class OrderService {
   // }
 
   async webhook(param: any) {
-    await this._ordermodel.findByIdAndUpdate(param.id, { status: 'paid' });
+    const order = await this._ordermodel.findByIdAndUpdate(param.id, {
+      status: 'paid',
+    });
+    console.log(order);
+
     return { message: 'Done' };
   }
 
@@ -100,8 +104,8 @@ export class OrderService {
     return await this._ordermodel.find({ user: req.user._id, status: 'Paid' });
   }
 
-  async sucessPage() {
-    this.webhook;
+  async sucessPage(param: any) {
+    this.webhook(param);
     return { message: 'Done' };
   }
 }
