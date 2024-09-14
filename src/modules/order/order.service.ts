@@ -46,8 +46,8 @@ export class OrderService {
           },
           quantity: e.quantity,
         })),
-        success_url: 'http://localhost:3000/success',
-        cancel_url: 'http://localhost:3000/cancel',
+        success_url: 'https://dawak-553b.vercel.app/order/success',
+        cancel_url: 'https://dawak-553b.vercel.app/order/cancel',
       });
 
       await this._cartModel.findOneAndUpdate({ user }, { drug: [] });
@@ -57,39 +57,51 @@ export class OrderService {
     return { message: 'Done' };
   }
 
-  async webhook(req: any, response: any) {
-    // This is your Stripe CLI webhook secret for testing your endpoint locally.
-    const endpointSecret = process.env.EndPointSecret;
+  // async webhook(req: any) {
+  //   // This is your Stripe CLI webhook secret for testing your endpoint locally.
+  //   const endpointSecret = process.env.EndPointSecret;
 
-    const stripe = new Stripe(process.env.Stripe_key);
+  //   const stripe = new Stripe(process.env.Stripe_key);
 
-    const sig = req.headers['stripe-signature'];
+  //   const sig = req.headers['stripe-signature'];
 
-    let event: any;
+  //   let event: any;
 
-    console.log(endpointSecret, req.body, sig);
+  //   console.log(endpointSecret, sig);
 
-    try {
-      event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-    } catch (err) {
-      return { message: `Webhook Error: ${err.message}` };
-    }
+  //   try {
+  //     event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+  //   } catch (err) {
+  //     return { message: `Webhook Error: ${err.message}`, err };
+  //   }
 
-    let order: any;
-    // Handle the event
-    if (event.type === 'checkout.session.completed') {
-      order = await this._ordermodel.findOneAndUpdate(
-        { _id: event.data.object.metadata.order_id },
-        { status: 'Paid' },
-      );
-    }
-    console.log(order);
+  //   console.log(event.data.object.metadata.order_id);
 
-    // Return a 200 response to acknowledge receipt of the event
-    response.send({ order });
+  //   let order: any;
+  //   // Handle the event
+  //   if (event.type === 'checkout.session.completed') {
+  //     order = await this._ordermodel.findOneAndUpdate(
+  //       { _id: event.data.object.metadata.order_id },
+  //       { status: 'Paid' },
+  //     );
+  //   }
+  //   console.log(order);
+
+  //   // Return a 200 response to acknowledge receipt of the event
+  //   return { order };
+  // }
+
+  async webhook(param: any) {
+    await this._ordermodel.findByIdAndUpdate(param.id, { status: 'paid' });
+    return { message: 'Done' };
   }
 
   async orders(req: any) {
     return await this._ordermodel.find({ user: req.user._id, status: 'Paid' });
+  }
+
+  async sucessPage() {
+    this.webhook;
+    return { message: 'Done' };
   }
 }
