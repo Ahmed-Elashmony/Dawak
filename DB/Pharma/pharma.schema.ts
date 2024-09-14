@@ -15,10 +15,7 @@ export class Pharma {
   createdBy: User;
 
   @Prop()
-  city: string;
-
-  @Prop()
-  address: string;
+  city: [{ type: string }];
 
   @Prop()
   phone: string;
@@ -28,6 +25,9 @@ export class Pharma {
 
   @Prop({ default: false })
   confirmed: boolean;
+
+  @Prop({ type: Object })
+  image: { url: string; blobName: string };
 }
 const pharmaSchema = SchemaFactory.createForClass(Pharma);
 

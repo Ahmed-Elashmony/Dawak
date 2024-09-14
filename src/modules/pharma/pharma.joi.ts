@@ -14,8 +14,7 @@ export const addSchema = {
 export const updateSchema = {
   body: joi
     .object({
-      city: joi.string(),
-      address: joi.string(),
+      city: joi.array().items(joi.string()),
       phone: joi.string(),
     })
     .required(),
