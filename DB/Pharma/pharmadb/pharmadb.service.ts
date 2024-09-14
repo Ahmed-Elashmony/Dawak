@@ -12,8 +12,8 @@ export class PharmadbService {
     return await this.pharmaModel.create(object);
   }
 
-  async find(object: any): Promise<any> {
-    return await this.pharmaModel.find(object);
+  async find(object: any, skip: number, limit: number): Promise<any> {
+    return await this.pharmaModel.find(object).skip(skip).limit(limit);
   }
 
   async findOne(object: any): Promise<Pharma> {

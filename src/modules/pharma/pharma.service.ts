@@ -56,4 +56,24 @@ export class PharmaService {
     if (!pharma) throw new NotFoundException(`This Pharma doesn't exist`);
     return { message: 'Pharma Updated Successfully', pharma };
   }
+
+  async searchPharma(query: any): Promise<any> {
+    if (query.name == '' || query.name == ' ') {
+      return { message: 'Pharma Fetched Successfully', pharma: [] };
+    }
+
+    // Set default values for page and limit if not provided
+    const page = parseInt(query.page) || 1;
+    const limit = parseInt(query.limit) || 5;
+    const skip = (page - 1) * limit;
+
+    const pharma = await this._pharmaModel.find(
+      {
+        name: { $regex: query.name, $options: 'i' },
+      },
+      skip,
+      limit,
+    );
+    return { message: 'Pharma Fetched Successfully', pharma };
+  }
 }
