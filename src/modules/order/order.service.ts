@@ -93,7 +93,7 @@ export class OrderService {
 
   async webhook(param: any) {
     const order = await this._ordermodel.findByIdAndUpdate(param.id, {
-      status: 'paid',
+      status: 'Paid',
     });
 
     return { message: 'Done', order };
