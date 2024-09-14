@@ -95,9 +95,8 @@ export class OrderService {
     const order = await this._ordermodel.findByIdAndUpdate(param.id, {
       status: 'paid',
     });
-    console.log(order);
 
-    return { message: 'Done' };
+    return { message: 'Done', order };
   }
 
   async orders(req: any) {
@@ -105,7 +104,7 @@ export class OrderService {
   }
 
   async sucessPage(param: any) {
-    this.webhook(param);
-    return { message: 'Done' };
+    await this.webhook(param);
+    return { message: 'Done', param };
   }
 }
