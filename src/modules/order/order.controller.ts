@@ -1,4 +1,12 @@
-import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { OrderService } from './order.service';
 import { AuthGuard } from '../../guard/auth/auth.guard';
 
@@ -15,5 +23,11 @@ export class OrderController {
   @Post('webhook')
   async webhook(@Req() req: any, @Res() res: any) {
     return await this._orderService.webhook(req, res);
+  }
+
+  @Get()
+  @UseGuards(AuthGuard)
+  async orders(@Req() req: any) {
+    return await this._orderService.orders(req);
   }
 }

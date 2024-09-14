@@ -67,21 +67,29 @@ export class OrderService {
 
     let event: any;
 
+    console.log(endpointSecret, req.body, sig);
+
     try {
       event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
     } catch (err) {
       return { message: `Webhook Error: ${err.message}` };
     }
 
+    let order: any;
     // Handle the event
     if (event.type === 'checkout.session.completed') {
-      await this._ordermodel.findOneAndUpdate(
+      order = await this._ordermodel.findOneAndUpdate(
         { _id: event.data.object.metadata.order_id },
         { status: 'Paid' },
       );
     }
+    console.log(order);
 
     // Return a 200 response to acknowledge receipt of the event
-    response.send();
+    response.send({ order });
+  }
+
+  async orders(req: any) {
+    return await this._ordermodel.find({ user: req.user._id, status: 'Paid' });
   }
 }
