@@ -5,6 +5,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Req,
   UseGuards,
   UsePipes,
@@ -14,6 +15,7 @@ import { AuthGuard } from '../../guard/auth/auth.guard';
 import { JoiValidatePipe } from '../../pipes/joi-validate/joi-validate.pipe';
 import { addSchema, updateSchema } from './pharma.joi';
 import { Roles } from '../../decoreator/roles/roles.decorator';
+import { query } from 'express';
 
 @Controller('pharma')
 export class PharmaController {
@@ -29,13 +31,13 @@ export class PharmaController {
   @Get('/pending')
   @Roles(['admin'])
   @UseGuards(AuthGuard)
-  pendingPharma(): any {
-    return this._pharmaService.pendingPharma();
+  pendingPharma(@Query() query: any): any {
+    return this._pharmaService.pendingPharma(query);
   }
 
   @Get('/all')
-  getAllPharma(): any {
-    return this._pharmaService.getAllPharma();
+  getAllPharma(@Query() query: any): any {
+    return this._pharmaService.getAllPharma(query);
   }
 
   @Get('/:id')

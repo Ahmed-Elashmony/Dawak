@@ -21,8 +21,16 @@ export class PharmaService {
     return { message: 'Pharma Created Successfully', pharma };
   }
 
-  async pendingPharma(): Promise<any> {
-    const pharma = await this._pharmaModel.find({ confirmed: false });
+  async pendingPharma(query): Promise<any> {
+    const page = parseInt(query.page) || 1;
+    const limit = parseInt(query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const pharma = await this._pharmaModel.find(
+      { confirmed: false },
+      skip,
+      limit,
+    );
     return { message: 'Pharma Fetched Successfully', pharma };
   }
 
@@ -40,8 +48,16 @@ export class PharmaService {
     return { message: 'Pharma Confirmed Successfully', pharma };
   }
 
-  async getAllPharma(): Promise<any> {
-    const pharma = await this._pharmaModel.find({ confirmed: true });
+  async getAllPharma(query): Promise<any> {
+    const page = parseInt(query.page) || 1;
+    const limit = parseInt(query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const pharma = await this._pharmaModel.find(
+      { confirmed: true },
+      skip,
+      limit,
+    );
     return { message: 'Pharmas Fetched Successfully', pharma };
   }
 

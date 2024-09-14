@@ -12,7 +12,7 @@ export class PharmadbService {
     return await this.pharmaModel.create(object);
   }
 
-  async find(object: any, skip: number, limit: number): Promise<any> {
+  async find(object: any, skip: number = 0, limit: number = 10): Promise<any> {
     return await this.pharmaModel.find(object).skip(skip).limit(limit);
   }
 
