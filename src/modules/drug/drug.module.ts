@@ -10,9 +10,16 @@ import { PharmadbService } from '../../../DB/Pharma/pharmadb/pharmadb.service';
 import { pharmaDBModel } from '../../../DB/Pharma/pharma.schema';
 import { tokenDBModel } from 'DB/token/token.schema';
 import { TokendbService } from 'DB/token/tokendb/tokendb.service';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
-  imports: [drugDBModel, userDBModel, pharmaDBModel, tokenDBModel],
+  imports: [
+    drugDBModel,
+    userDBModel,
+    pharmaDBModel,
+    tokenDBModel,
+    MulterModule.register({ dest: './uploads' }),
+  ],
   controllers: [DrugController],
   providers: [
     DrugService,

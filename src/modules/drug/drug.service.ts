@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { DrugdbService } from '../../../DB/Drug/drugdb/drugdb.service';
 import { PharmadbService } from '../../../DB/Pharma/pharmadb/pharmadb.service';
+import cloudinary from 'src/utils/cloudinary';
 
 @Injectable()
 export class DrugService {
@@ -13,8 +14,18 @@ export class DrugService {
     private readonly _pharmaModel: PharmadbService,
   ) {}
 
-  async addDrug(body: any): Promise<any> {
+  async addDrug(body: any, file: any): Promise<any> {
     const checkPharma = await this._pharmaModel.findById(body.pharma);
+    if (file) {
+      const { secure_url, public_id } = await cloudinary.uploader.upload(
+        file[0].path,
+        {
+          folder: 'drugs',
+        },
+      );
+      body.image = { url: secure_url, id: public_id };
+    }
+
     if (!checkPharma.confirmed) {
       throw new ConflictException(`This Pharma is not confirmed yet`);
     }

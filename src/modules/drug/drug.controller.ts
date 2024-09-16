@@ -6,7 +6,9 @@ import {
   Patch,
   Post,
   Query,
+  UploadedFiles,
   UseGuards,
+  UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import { Roles } from '../../decoreator/roles/roles.decorator';
@@ -14,17 +16,22 @@ import { AuthGuard } from '../../guard/auth/auth.guard';
 import { JoiValidatePipe } from '../../pipes/joi-validate/joi-validate.pipe';
 import { addSchema, updateSchema } from './drug.joi';
 import { DrugService } from './drug.service';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('drug')
 export class DrugController {
   constructor(private readonly _drugService: DrugService) {}
 
   @Post()
+  @UseInterceptors(FilesInterceptor('file'))
   @UsePipes(new JoiValidatePipe(addSchema))
   @Roles(['admin'])
   @UseGuards(AuthGuard)
-  addDrug(@Body() body: object): any {
-    return this._drugService.addDrug(body);
+  addDrug(
+    @Body() body: object,
+    @UploadedFiles() file: Express.Multer.File,
+  ): any {
+    return this._drugService.addDrug(body, file);
   }
 
   @Patch('/:pharma/:drug')
