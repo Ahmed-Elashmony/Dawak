@@ -92,4 +92,38 @@ export class PharmaService {
     );
     return { message: 'Pharma Fetched Successfully', pharma };
   }
+
+  async pharmaByCity(param: any, query: any): Promise<any> {
+    const page = parseInt(query.page) || 1;
+    const limit = parseInt(query.limit) || 5;
+    const skip = (page - 1) * limit;
+
+    const pharma = await this._pharmaModel.find(
+      {
+        city: param.city,
+      },
+      skip,
+      limit,
+    );
+    return { message: 'Pharma Fetched Successfully', pharma };
+  }
+
+  async searchParma(query: any): Promise<any> {
+    if (query.name == '' || query.name == ' ') {
+      return { message: 'Pharma Fetched Successfully', pharma: [] };
+    }
+
+    const page = parseInt(query.page) || 1;
+    const limit = parseInt(query.limit) || 5;
+    const skip = (page - 1) * limit;
+
+    const pharma = await this._pharmaModel.find(
+      {
+        name: { $regex: query.name, $options: 'i' },
+      },
+      skip,
+      limit,
+    );
+    return { message: 'Pharma Fetched Successfully', pharma };
+  }
 }

@@ -15,7 +15,6 @@ import { AuthGuard } from '../../guard/auth/auth.guard';
 import { JoiValidatePipe } from '../../pipes/joi-validate/joi-validate.pipe';
 import { addSchema, updateSchema } from './pharma.joi';
 import { Roles } from '../../decoreator/roles/roles.decorator';
-import { query } from 'express';
 
 @Controller('pharma')
 export class PharmaController {
@@ -40,6 +39,11 @@ export class PharmaController {
     return this._pharmaService.getAllPharma(query);
   }
 
+  @Get('/search')
+  async searchParma(@Query() query: any): Promise<any> {
+    return this._pharmaService.searchParma(query);
+  }
+
   @Get('/:id')
   getPharma(@Param() param: object): any {
     return this._pharmaService.getPharma(param);
@@ -58,5 +62,10 @@ export class PharmaController {
   @UseGuards(AuthGuard)
   updatePharma(@Body() body: object, @Param() param: object): any {
     return this._pharmaService.updatePharma(body, param);
+  }
+
+  @Get('/filter/:city')
+  async pharmaByCity(@Param() param: any, @Query() query: any): Promise<any> {
+    return this._pharmaService.pharmaByCity(param, query);
   }
 }
