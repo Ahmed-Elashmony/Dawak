@@ -8,9 +8,11 @@ import { UserdbService } from '../../../DB/User/userdb/userdb.service';
 import { userDBModel } from '../../../DB/User/user.schema';
 import { PharmadbService } from '../../../DB/Pharma/pharmadb/pharmadb.service';
 import { pharmaDBModel } from '../../../DB/Pharma/pharma.schema';
+import { tokenDBModel } from 'DB/token/token.schema';
+import { TokendbService } from 'DB/token/tokendb/tokendb.service';
 
 @Module({
-  imports: [drugDBModel, userDBModel, pharmaDBModel],
+  imports: [drugDBModel, userDBModel, pharmaDBModel, tokenDBModel],
   controllers: [DrugController],
   providers: [
     DrugService,
@@ -18,6 +20,7 @@ import { pharmaDBModel } from '../../../DB/Pharma/pharma.schema';
     UserdbService,
     JwtService,
     PharmadbService,
+    TokendbService,
   ],
   exports: [DrugdbService],
 })

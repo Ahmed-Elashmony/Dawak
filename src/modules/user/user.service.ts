@@ -7,6 +7,7 @@ import Cryptr from 'cryptr';
 import { CartService } from '../../modules/cart/cart.service';
 import { confirmTemp, resetPassTemp } from '../../utils/htmlTemp';
 import sendEmail from '../../utils/sendEmail';
+import { TokendbService } from 'DB/token/tokendb/tokendb.service';
 
 @Injectable()
 export class UserService {
@@ -14,6 +15,7 @@ export class UserService {
     private readonly _userModel: UserdbService,
     private readonly _jwtService: JwtService,
     private readonly _cartService: CartService,
+    private readonly _tokenService: TokendbService,
   ) {}
 
   async signUp(body: any): Promise<any> {
@@ -75,7 +77,13 @@ export class UserService {
       { secret: process.env.SECRET_KEY },
     );
 
-    return { message: 'Login successful', user, token };
+    await this._tokenService.create({
+      token,
+      user: user['_id'],
+      expireAt: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 7),
+    });
+
+    return { message: 'Login successful', token };
   }
 
   async update(body: any, req: any): Promise<any> {
@@ -125,6 +133,18 @@ export class UserService {
       { password: hashPass, $unset: { forgetCode: 1 } },
     );
     if (!user) throw new ConflictException('Please provide a valid code');
+    await this._tokenService.updateMany(
+      { user: user['_id'] },
+      { vaild: false },
+    );
     return { message: 'Done, Password Changed' };
+  }
+
+  async logOut(req: any): Promise<any> {
+    await this._tokenService.updateMany(
+      { user: req.user.id },
+      { vaild: false },
+    );
+    return { message: 'Logged Out' };
   }
 }

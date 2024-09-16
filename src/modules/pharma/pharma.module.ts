@@ -6,10 +6,18 @@ import { PharmadbService } from '../../../DB/Pharma/pharmadb/pharmadb.service';
 import { PharmaController } from './pharma.controller';
 import { JwtService } from '@nestjs/jwt';
 import { UserdbService } from 'DB/User/userdb/userdb.service';
+import { tokenDBModel } from 'DB/token/token.schema';
+import { TokendbService } from 'DB/token/tokendb/tokendb.service';
 
 @Module({
-  imports: [pharmaDBModel, userDBModel],
+  imports: [pharmaDBModel, userDBModel, tokenDBModel],
   controllers: [PharmaController],
-  providers: [PharmaService, PharmadbService, JwtService, UserdbService],
+  providers: [
+    PharmaService,
+    PharmadbService,
+    JwtService,
+    UserdbService,
+    TokendbService,
+  ],
 })
 export class PharmaModule {}

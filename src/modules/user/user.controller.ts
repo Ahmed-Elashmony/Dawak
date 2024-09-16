@@ -65,4 +65,10 @@ export class UserController {
   reset(@Body() body: object) {
     return this._userService.resetPass(body);
   }
+
+  @Post('logout')
+  @UseGuards(AuthGuard)
+  logout(@Req() req: any) {
+    return this._userService.logOut(req);
+  }
 }
