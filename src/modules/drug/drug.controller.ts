@@ -44,7 +44,7 @@ export class DrugController {
     @Param() param: object,
     @UploadedFiles() image: Express.Multer.File,
   ): any {
-    return this._drugService.updateDrug(body, param, image);
+    return this._drugService.updateDrug(body, param, image[0].buffer);
   }
 
   @Get('/search')
