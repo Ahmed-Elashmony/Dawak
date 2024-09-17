@@ -11,6 +11,7 @@ import { pharmaDBModel } from '../../../DB/Pharma/pharma.schema';
 import { tokenDBModel } from '../../../DB/token/token.schema';
 import { TokendbService } from '../../../DB/token/tokendb/tokendb.service';
 import { MulterModule } from '@nestjs/platform-express';
+import * as multer from 'multer';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { MulterModule } from '@nestjs/platform-express';
     userDBModel,
     pharmaDBModel,
     tokenDBModel,
-    MulterModule.register({ dest: './uploads' }),
+    MulterModule.register({ storage: multer.memoryStorage() }),
   ],
   controllers: [DrugController],
   providers: [
