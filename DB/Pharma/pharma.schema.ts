@@ -27,7 +27,7 @@ export class Pharma {
   confirmed: boolean;
 
   @Prop({ type: Object })
-  image: { url: string; blobName: string };
+  image: { url: string; id: string };
 }
 const pharmaSchema = SchemaFactory.createForClass(Pharma);
 

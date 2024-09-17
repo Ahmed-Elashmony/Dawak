@@ -22,7 +22,7 @@ export const updateSchema = {
     .required(),
   param: joi
     .object({
-      drug: joi.string().min(4).required(),
+      drug: joi.string().custom(isValidObjectId).required(),
       pharma: joi.string().custom(isValidObjectId).required(),
     })
     .required(),

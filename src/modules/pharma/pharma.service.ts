@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { PharmadbService } from '../../../DB/Pharma/pharmadb/pharmadb.service';
 import { UserdbService } from '../../../DB/User/userdb/userdb.service';
+import cloudinary from '../../utils/cloudinary';
 
 @Injectable()
 export class PharmaService {
@@ -67,7 +68,16 @@ export class PharmaService {
     return { message: 'Pharma Fetched Successfully', pharma };
   }
 
-  async updatePharma(body: any, param: any): Promise<any> {
+  async updatePharma(body: any, param: any, image: any): Promise<any> {
+    if (image) {
+      const { secure_url, public_id } = await cloudinary.uploader.upload(
+        image[0].path,
+        {
+          folder: 'pharma',
+        },
+      );
+      body.image = { url: secure_url, id: public_id };
+    }
     const pharma = await this._pharmaModel.findByIdAndUpdate(param.id, body);
     if (!pharma) throw new NotFoundException(`This Pharma doesn't exist`);
     return { message: 'Pharma Updated Successfully', pharma };

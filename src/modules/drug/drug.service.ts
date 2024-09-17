@@ -38,9 +38,18 @@ export class DrugService {
     return { message: 'Drug Created Successfully', drug };
   }
 
-  async updateDrug(body: any, param: any): Promise<any> {
+  async updateDrug(body: any, param: any, image: any): Promise<any> {
+    if (image) {
+      const { secure_url, public_id } = await cloudinary.uploader.upload(
+        image[0].path,
+        {
+          folder: 'drugs',
+        },
+      );
+      body.image = { url: secure_url, id: public_id };
+    }
     const drug = await this._drugModel.findOneAndUpdate(
-      { name: param.drug, pharma: param.pharma },
+      { _id: param.drug, pharma: param.pharma },
       body,
     );
     if (!drug) throw new NotFoundException(`This drug doesn't exist`);

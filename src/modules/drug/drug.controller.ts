@@ -23,23 +23,28 @@ export class DrugController {
   constructor(private readonly _drugService: DrugService) {}
 
   @Post()
-  @UseInterceptors(FilesInterceptor('file'))
+  @UseInterceptors(FilesInterceptor('image'))
   @UsePipes(new JoiValidatePipe(addSchema))
   @Roles(['admin'])
   @UseGuards(AuthGuard)
   addDrug(
     @Body() body: object,
-    @UploadedFiles() file: Express.Multer.File,
+    @UploadedFiles() image: Express.Multer.File,
   ): any {
-    return this._drugService.addDrug(body, file);
+    return this._drugService.addDrug(body, image);
   }
 
   @Patch('/:pharma/:drug')
+  @UseInterceptors(FilesInterceptor('image'))
   @UsePipes(new JoiValidatePipe(updateSchema))
   @Roles(['admin'])
   @UseGuards(AuthGuard)
-  updateDrug(@Body() body: object, @Param() param: object): any {
-    return this._drugService.updateDrug(body, param);
+  updateDrug(
+    @Body() body: object,
+    @Param() param: object,
+    @UploadedFiles() image: Express.Multer.File,
+  ): any {
+    return this._drugService.updateDrug(body, param, image);
   }
 
   @Get('/search')

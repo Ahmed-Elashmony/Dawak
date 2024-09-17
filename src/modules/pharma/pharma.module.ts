@@ -8,9 +8,15 @@ import { JwtService } from '@nestjs/jwt';
 import { UserdbService } from '../../../DB/User/userdb/userdb.service';
 import { tokenDBModel } from '../../../DB/token/token.schema';
 import { TokendbService } from '../../../DB/token/tokendb/tokendb.service';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
-  imports: [pharmaDBModel, userDBModel, tokenDBModel],
+  imports: [
+    pharmaDBModel,
+    userDBModel,
+    tokenDBModel,
+    MulterModule.register({ dest: './uploads' }),
+  ],
   controllers: [PharmaController],
   providers: [
     PharmaService,
