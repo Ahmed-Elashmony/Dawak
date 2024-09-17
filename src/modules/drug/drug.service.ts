@@ -6,6 +6,7 @@ import {
 import { DrugdbService } from '../../../DB/Drug/drugdb/drugdb.service';
 import { PharmadbService } from '../../../DB/Pharma/pharmadb/pharmadb.service';
 import cloudinary from '../../utils/cloudinary';
+import * as streamifier from 'streamifier';
 
 @Injectable()
 export class DrugService {
@@ -17,13 +18,23 @@ export class DrugService {
   async addDrug(body: any, file: any): Promise<any> {
     const checkPharma = await this._pharmaModel.findById(body.pharma);
     if (file) {
-      const { secure_url, public_id } = await cloudinary.uploader.upload(
-        file[0].path,
-        {
-          folder: 'drugs',
-        },
-      );
-      body.image = { url: secure_url, id: public_id };
+      const result = await new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          {
+            folder: 'drugs',
+          },
+          (error, result) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(result);
+            }
+          },
+        );
+        streamifier.createReadStream(file).pipe(uploadStream);
+      });
+
+      body.image = { url: result['secure_url'], id: result['public_id'] };
     }
 
     if (!checkPharma.confirmed) {
@@ -40,13 +51,23 @@ export class DrugService {
 
   async updateDrug(body: any, param: any, image: any): Promise<any> {
     if (image) {
-      const { secure_url, public_id } = await cloudinary.uploader.upload(
-        image[0].path,
-        {
-          folder: 'drugs',
-        },
-      );
-      body.image = { url: secure_url, id: public_id };
+      const result = await new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          {
+            folder: 'drugs',
+          },
+          (error, result) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(result);
+            }
+          },
+        );
+        streamifier.createReadStream(image).pipe(uploadStream);
+      });
+
+      body.image = { url: result['secure_url'], id: result['public_id'] };
     }
     const drug = await this._drugModel.findOneAndUpdate(
       { _id: param.drug, pharma: param.pharma },

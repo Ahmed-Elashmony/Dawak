@@ -31,7 +31,7 @@ export class DrugController {
     @Body() body: object,
     @UploadedFiles() image: Express.Multer.File,
   ): any {
-    return this._drugService.addDrug(body, image);
+    return this._drugService.addDrug(body, image[0].buffer);
   }
 
   @Patch('/:pharma/:drug')

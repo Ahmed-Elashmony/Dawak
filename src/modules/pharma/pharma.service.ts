@@ -6,6 +6,7 @@ import {
 import { PharmadbService } from '../../../DB/Pharma/pharmadb/pharmadb.service';
 import { UserdbService } from '../../../DB/User/userdb/userdb.service';
 import cloudinary from '../../utils/cloudinary';
+import * as streamifier from 'streamifier';
 
 @Injectable()
 export class PharmaService {
@@ -70,14 +71,25 @@ export class PharmaService {
 
   async updatePharma(body: any, param: any, image: any): Promise<any> {
     if (image) {
-      const { secure_url, public_id } = await cloudinary.uploader.upload(
-        image[0].path,
-        {
-          folder: 'pharma',
-        },
-      );
-      body.image = { url: secure_url, id: public_id };
+      const result = await new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          {
+            folder: 'pharma',
+          },
+          (error, result) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(result);
+            }
+          },
+        );
+        streamifier.createReadStream(image).pipe(uploadStream);
+      });
+
+      body.image = { url: result['secure_url'], id: result['public_id'] };
     }
+
     const pharma = await this._pharmaModel.findByIdAndUpdate(param.id, body);
     if (!pharma) throw new NotFoundException(`This Pharma doesn't exist`);
     return { message: 'Pharma Updated Successfully', pharma };

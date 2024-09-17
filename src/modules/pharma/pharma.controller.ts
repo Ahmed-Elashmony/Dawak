@@ -69,7 +69,7 @@ export class PharmaController {
     @Param() param: object,
     @UploadedFiles() image: Express.Multer.File,
   ): any {
-    return this._pharmaService.updatePharma(body, param, image);
+    return this._pharmaService.updatePharma(body, param, image[0].buffer);
   }
 
   @Get('/filter/:city')
