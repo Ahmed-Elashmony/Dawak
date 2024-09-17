@@ -15,7 +15,11 @@ export class CartService {
 
   async addToCart(body: any, req: any) {
     const user = req.user._id;
+    console.log(user);
+
     const cart = await this._cartModel.findOne({ user });
+    console.log(cart);
+
     const check = cart.drug.find((e) => e.drugId == body.drugId);
     if (check) {
       check.quantity += body.quantity;

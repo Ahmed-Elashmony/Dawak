@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { DrugdbService } from '../../../DB/Drug/drugdb/drugdb.service';
 import { PharmadbService } from '../../../DB/Pharma/pharmadb/pharmadb.service';
-import cloudinary from 'src/utils/cloudinary';
+import cloudinary from '../../utils/cloudinary';
 
 @Injectable()
 export class DrugService {

@@ -7,7 +7,7 @@ import Cryptr from 'cryptr';
 import { CartService } from '../../modules/cart/cart.service';
 import { confirmTemp, resetPassTemp } from '../../utils/htmlTemp';
 import sendEmail from '../../utils/sendEmail';
-import { TokendbService } from 'DB/token/tokendb/tokendb.service';
+import { TokendbService } from '../../../DB/token/tokendb/tokendb.service';
 
 @Injectable()
 export class UserService {

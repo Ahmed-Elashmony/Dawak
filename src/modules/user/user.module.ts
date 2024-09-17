@@ -7,8 +7,8 @@ import { UserService } from './user.service';
 import { CartService } from '../../modules/cart/cart.service';
 import { CartdbService } from '../../../DB/Cart/cartdb/cartdb.service';
 import { cartDBModel } from '../../../DB/Cart/cart.schema';
-import { tokenDBModel } from 'DB/token/token.schema';
-import { TokendbService } from 'DB/token/tokendb/tokendb.service';
+import { tokenDBModel } from '../../../DB/token/token.schema';
+import { TokendbService } from '../../../DB/token/tokendb/tokendb.service';
 
 @Module({
   imports: [userDBModel, cartDBModel, tokenDBModel],

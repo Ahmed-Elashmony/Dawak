@@ -41,6 +41,7 @@ export class OrderService {
             currency: 'EGP',
             product_data: {
               name: e.drugId.name,
+              image: e.drugId.image.url ? e.drugId.image.url : null,
             },
             unit_amount: e.drugId.price * 100,
           },

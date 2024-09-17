@@ -20,7 +20,7 @@ export class CartdbService {
   async findOneAndPopulate(object: any): Promise<Cart> {
     return await this.cartModel.findOne(object).populate({
       path: 'drug.drugId',
-      select: 'name price pharma',
+      select: 'name price pharma image',
       populate: { path: 'pharma', select: 'name' },
     });
   }

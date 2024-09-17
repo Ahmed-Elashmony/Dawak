@@ -6,8 +6,8 @@ import { userDBModel } from '../../../DB/User/user.schema';
 import { UserdbService } from '../../../DB/User/userdb/userdb.service';
 import { CartController } from './cart.controller';
 import { CartService } from './cart.service';
-import { TokendbService } from 'DB/token/tokendb/tokendb.service';
-import { tokenDBModel } from 'DB/token/token.schema';
+import { TokendbService } from '../../../DB/token/tokendb/tokendb.service';
+import { tokenDBModel } from '../../../DB/token/token.schema';
 
 @Module({
   imports: [cartDBModel, userDBModel, tokenDBModel],

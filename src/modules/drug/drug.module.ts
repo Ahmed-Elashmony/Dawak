@@ -8,8 +8,8 @@ import { UserdbService } from '../../../DB/User/userdb/userdb.service';
 import { userDBModel } from '../../../DB/User/user.schema';
 import { PharmadbService } from '../../../DB/Pharma/pharmadb/pharmadb.service';
 import { pharmaDBModel } from '../../../DB/Pharma/pharma.schema';
-import { tokenDBModel } from 'DB/token/token.schema';
-import { TokendbService } from 'DB/token/tokendb/tokendb.service';
+import { tokenDBModel } from '../../../DB/token/token.schema';
+import { TokendbService } from '../../../DB/token/tokendb/tokendb.service';
 import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
