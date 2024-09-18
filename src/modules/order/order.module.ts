@@ -10,9 +10,11 @@ import { OrderdbService } from '../../../DB/Order/orderdb/orderdb.service';
 import { cartDBModel } from '../../../DB/Cart/cart.schema';
 import { tokenDBModel } from '../../../DB/token/token.schema';
 import { TokendbService } from '../../../DB/token/tokendb/tokendb.service';
+import { drugDBModel } from 'DB/Drug/drug.schema';
+import { DrugdbService } from 'DB/Drug/drugdb/drugdb.service';
 
 @Module({
-  imports: [orderDBModel, userDBModel, cartDBModel, tokenDBModel],
+  imports: [orderDBModel, userDBModel, cartDBModel, tokenDBModel, drugDBModel],
   controllers: [OrderController],
   providers: [
     OrderService,
@@ -21,6 +23,7 @@ import { TokendbService } from '../../../DB/token/tokendb/tokendb.service';
     OrderdbService,
     CartdbService,
     TokendbService,
+    DrugdbService,
   ],
 })
 export class OrderModule {}

@@ -2,12 +2,14 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { CartdbService } from '../../../DB/Cart/cartdb/cartdb.service';
 import { OrderdbService } from '../../../DB/Order/orderdb/orderdb.service';
 import Stripe from 'stripe';
+import { DrugdbService } from 'DB/Drug/drugdb/drugdb.service';
 
 @Injectable()
 export class OrderService {
   constructor(
     private readonly _ordermodel: OrderdbService,
     private readonly _cartModel: CartdbService,
+    private readonly _drugModel: DrugdbService,
   ) {}
 
   async createOrder(body: any, req: any) {
@@ -41,7 +43,7 @@ export class OrderService {
             currency: 'EGP',
             product_data: {
               name: e.drugId.name,
-              image: e.drugId.image.url ? e.drugId.image.url : null,
+              images: e.drugId.image ? [e.drugId.image.url] : [],
             },
             unit_amount: e.drugId.price * 100,
           },
@@ -95,6 +97,12 @@ export class OrderService {
   async webhook(param: any) {
     const order = await this._ordermodel.findByIdAndUpdate(param.id, {
       status: 'Paid',
+    });
+
+    order.drug.forEach(async (e) => {
+      await this._drugModel.findByIdAndUpdate(e.drugId, {
+        $inc: { quantity: -e.quantity },
+      });
     });
 
     return { message: 'Done', order };

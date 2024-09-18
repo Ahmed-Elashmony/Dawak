@@ -8,9 +8,11 @@ import { CartController } from './cart.controller';
 import { CartService } from './cart.service';
 import { TokendbService } from '../../../DB/token/tokendb/tokendb.service';
 import { tokenDBModel } from '../../../DB/token/token.schema';
+import { drugDBModel } from 'DB/Drug/drug.schema';
+import { DrugdbService } from 'DB/Drug/drugdb/drugdb.service';
 
 @Module({
-  imports: [cartDBModel, userDBModel, tokenDBModel],
+  imports: [cartDBModel, userDBModel, tokenDBModel, drugDBModel],
   controllers: [CartController],
   providers: [
     CartService,
@@ -18,6 +20,7 @@ import { tokenDBModel } from '../../../DB/token/token.schema';
     JwtService,
     UserdbService,
     TokendbService,
+    DrugdbService,
   ],
 })
 export class CartModule {}
