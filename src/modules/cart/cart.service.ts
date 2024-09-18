@@ -35,6 +35,11 @@ export class CartService {
         { drug: cart.drug },
       );
     }
+
+    if (body.quantity > drug.quantity) {
+      throw new ConflictException(`Sorry, Only ${drug.quantity} available`);
+    }
+
     cart.drug.push(body);
 
     return await this._cartModel.findOneAndUpdate(
