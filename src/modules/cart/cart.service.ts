@@ -51,4 +51,29 @@ export class CartService {
   async clearCart(user: any) {
     return await this._cartModel.findOneAndUpdate({ user }, { drug: [] });
   }
+
+  async remove(userId: any, param: any, query: any) {
+    if (query.quantity) {
+      const Cart = await this._cartModel.findOne({ user: userId });
+
+      const drug = Cart.drug.find((e) => e.drugId == param.drugId);
+
+      if (drug.quantity > query.quantity) {
+        drug.quantity -= query.quantity;
+        const cart = await this._cartModel.findOneAndUpdate(
+          { user: userId },
+          { drug: Cart.drug },
+        );
+
+        return { message: 'Drug quantity updated', cart };
+      }
+    }
+
+    const cart = await this._cartModel.findOneAndUpdate(
+      { user: userId },
+      { $pull: { drug: { drugId: param.drugId } } },
+    );
+
+    return { message: 'Drug removed from cart', cart };
+  }
 }

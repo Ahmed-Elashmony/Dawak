@@ -2,7 +2,9 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Patch,
+  Query,
   Req,
   UseGuards,
   UsePipes,
@@ -40,5 +42,11 @@ export class CartController {
   @UseGuards(AuthGuard)
   async clearCart(@Req() req: any) {
     return await this._cartService.clearCart(req.user._id);
+  }
+
+  @Patch('/remove/:drugId')
+  @UseGuards(AuthGuard)
+  async remove(@Req() req: any, @Param() param: any, @Query() query: any) {
+    return await this._cartService.remove(req.user._id, param, query);
   }
 }
