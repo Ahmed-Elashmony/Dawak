@@ -25,7 +25,7 @@ export class PharmadbService {
       .findById(id)
       .select('-__v -confirmed -createdAt -updatedAt')
       .populate({ path: 'createdBy', select: 'userName email' })
-      .populate({ path: 'drugs', select: 'name price category -pharma' });
+      .populate({ path: 'drugs', select: 'name price image quantity -pharma' });
   }
   async findById(id: any): Promise<Pharma> {
     return await this.pharmaModel.findById(id);
