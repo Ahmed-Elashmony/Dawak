@@ -18,6 +18,15 @@ export class OrderService {
 
     if (cart.drug.length < 1) throw new ConflictException('Cart is empty');
 
+    for (const e of cart.drug) {
+      const drug = await this._drugModel.findById(e.drugId);
+      if (e.quantity > drug.quantity) {
+        throw new ConflictException(
+          `Sorry, Only ${drug.quantity} available of ${drug.name}`,
+        );
+      }
+    }
+
     const order: any = {
       user,
       drug: cart.drug,
