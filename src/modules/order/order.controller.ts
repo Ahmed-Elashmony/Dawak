@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Req,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { AuthGuard } from '../../guard/auth/auth.guard';
 
@@ -20,10 +12,10 @@ export class OrderController {
     return await this._orderService.createOrder(body, req);
   }
 
-  // @Post('webhook')
-  // async webhook() {
-  //   return await this._orderService.webhook();
-  // }
+  @Post('webhook')
+  async webhook(@Req() req: any) {
+    return await this._orderService.webhook(req);
+  }
 
   @Get()
   @UseGuards(AuthGuard)
@@ -31,8 +23,8 @@ export class OrderController {
     return await this._orderService.orders(req);
   }
 
-  @Get('success/:id')
-  async suceessPage(@Param() param: any) {
-    return this._orderService.sucessPage(param);
-  }
+  // @Get('success/:id')
+  // async suceessPage(@Param() param: any) {
+  //   return this._orderService.sucessPage(param);
+  // }
 }

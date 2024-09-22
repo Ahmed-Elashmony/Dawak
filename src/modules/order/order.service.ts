@@ -69,60 +69,60 @@ export class OrderService {
     return { message: 'Done' };
   }
 
-  // async webhook(req: any) {
-  //   // This is your Stripe CLI webhook secret for testing your endpoint locally.
-  //   const endpointSecret = process.env.EndPointSecret;
+  async webhook(req: any) {
+    // This is your Stripe CLI webhook secret for testing your endpoint locally.
+    const endpointSecret = process.env.EndPointSecret;
 
-  //   const stripe = new Stripe(process.env.Stripe_key);
+    const stripe = new Stripe(process.env.Stripe_key);
 
-  //   const sig = req.headers['stripe-signature'];
+    const sig = req.headers['stripe-signature'];
 
-  //   let event: any;
+    let event: any;
 
-  //   console.log(endpointSecret, sig);
+    console.log('82', endpointSecret, sig);
 
-  //   try {
-  //     event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-  //   } catch (err) {
-  //     return { message: `Webhook Error: ${err.message}`, err };
-  //   }
+    try {
+      event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+    } catch (err) {
+      return { message: `Webhook Error: ${err.message}`, err };
+    }
 
-  //   console.log(event.data.object.metadata.order_id);
+    console.log('90', event.data.object.metadata.order_id);
 
-  //   let order: any;
-  //   // Handle the event
-  //   if (event.type === 'checkout.session.completed') {
-  //     order = await this._ordermodel.findOneAndUpdate(
-  //       { _id: event.data.object.metadata.order_id },
-  //       { status: 'Paid' },
-  //     );
-  //   }
-  //   console.log(order);
+    let order: any;
+    // Handle the event
+    if (event.type === 'checkout.session.completed') {
+      order = await this._ordermodel.findOneAndUpdate(
+        { _id: event.data.object.metadata.order_id },
+        { status: 'Paid' },
+      );
+    }
+    console.log('100', order);
 
-  //   // Return a 200 response to acknowledge receipt of the event
-  //   return { order };
-  // }
-
-  async webhook(param: any) {
-    const order = await this._ordermodel.findByIdAndUpdate(param.id, {
-      status: 'Paid',
-    });
-
-    order.drug.forEach(async (e) => {
-      await this._drugModel.findByIdAndUpdate(e.drugId, {
-        $inc: { quantity: -e.quantity },
-      });
-    });
-
-    return { message: 'Done', order };
+    // Return a 200 response to acknowledge receipt of the event
+    return { order };
   }
+
+  //   async webhook(param: any) {
+  //     const order = await this._ordermodel.findByIdAndUpdate(param.id, {
+  //       status: 'Paid',
+  //     });
+
+  //     order.drug.forEach(async (e) => {
+  //       await this._drugModel.findByIdAndUpdate(e.drugId, {
+  //         $inc: { quantity: -e.quantity },
+  //       });
+  //     });
+
+  //     return { message: 'Done', order };
+  //   }
 
   async orders(req: any) {
     return await this._ordermodel.find({ user: req.user._id, status: 'Paid' });
   }
 
-  async sucessPage(param: any) {
-    await this.webhook(param);
-    return { message: 'Done', param };
-  }
+  //   async sucessPage(param: any) {
+  //     await this.webhook(param);
+  //     return { message: 'Done', param };
+  //   }
 }
