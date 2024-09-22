@@ -103,7 +103,7 @@ export class OrderService {
       });
 
       await this._cartModel.findOneAndUpdate(
-        { user: req.user._id },
+        { user: order.user },
         { drug: [] },
       );
     }
