@@ -9,8 +9,6 @@ import { CartModule } from './modules/cart/cart.module';
 import { OrderModule } from './modules/order/order.module';
 import * as dotenv from 'dotenv';
 dotenv.config();
-import { ConfigModule } from '@nestjs/config';
-import configs from './utils/config';
 
 @Module({
   imports: [
@@ -20,7 +18,6 @@ import configs from './utils/config';
     PharmaModule,
     CartModule,
     OrderModule,
-    ConfigModule.forRoot({ isGlobal: true, load: [configs] }),
   ],
   controllers: [AppController],
   providers: [AppService],

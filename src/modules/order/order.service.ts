@@ -80,7 +80,11 @@ export class OrderService {
     let event: any;
 
     try {
-      event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+      event = stripe.webhooks.constructEvent(
+        req['rawBody'],
+        sig,
+        endpointSecret,
+      );
     } catch (err) {
       return { message: `Webhook Error: ${err.message}`, err };
     }

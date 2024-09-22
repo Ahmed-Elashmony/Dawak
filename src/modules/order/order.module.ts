@@ -12,17 +12,9 @@ import { tokenDBModel } from '../../../DB/token/token.schema';
 import { TokendbService } from '../../../DB/token/tokendb/tokendb.service';
 import { drugDBModel } from 'DB/Drug/drug.schema';
 import { DrugdbService } from 'DB/Drug/drugdb/drugdb.service';
-import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [
-    orderDBModel,
-    userDBModel,
-    cartDBModel,
-    tokenDBModel,
-    drugDBModel,
-    ConfigModule,
-  ],
+  imports: [orderDBModel, userDBModel, cartDBModel, tokenDBModel, drugDBModel],
   controllers: [OrderController],
   providers: [
     OrderService,
