@@ -22,9 +22,4 @@ export class OrderController {
   async orders(@Req() req: any) {
     return await this._orderService.orders(req);
   }
-
-  // @Get('success/:id')
-  // async suceessPage(@Param() param: any) {
-  //   return this._orderService.sucessPage(param);
-  // }
 }

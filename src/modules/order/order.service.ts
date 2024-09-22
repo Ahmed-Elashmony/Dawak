@@ -62,7 +62,6 @@ export class OrderService {
         cancel_url: 'https://dawak-553b.vercel.app/order/cancel',
       });
 
-      await this._cartModel.findOneAndUpdate({ user }, { drug: [] });
       return { message: 'Done', link: seisson.url };
     }
     await this._cartModel.findOneAndUpdate({ user }, { drug: [] });
@@ -89,8 +88,6 @@ export class OrderService {
       return { message: `Webhook Error: ${err.message}`, err };
     }
 
-    console.log('90', event.data.object.metadata.order_id);
-
     let order: any;
     // Handle the event
     if (event.type === 'checkout.session.completed') {
@@ -98,33 +95,24 @@ export class OrderService {
         { _id: event.data.object.metadata.order_id },
         { status: 'Paid' },
       );
+
+      order.drug.forEach(async (e) => {
+        await this._drugModel.findByIdAndUpdate(e.drugId, {
+          $inc: { quantity: -e.quantity },
+        });
+      });
+
+      await this._cartModel.findOneAndUpdate(
+        { user: req.user._id },
+        { drug: [] },
+      );
     }
-    console.log('100', order);
 
     // Return a 200 response to acknowledge receipt of the event
     return { order };
   }
 
-  //   async webhook(param: any) {
-  //     const order = await this._ordermodel.findByIdAndUpdate(param.id, {
-  //       status: 'Paid',
-  //     });
-
-  //     order.drug.forEach(async (e) => {
-  //       await this._drugModel.findByIdAndUpdate(e.drugId, {
-  //         $inc: { quantity: -e.quantity },
-  //       });
-  //     });
-
-  //     return { message: 'Done', order };
-  //   }
-
   async orders(req: any) {
     return await this._ordermodel.find({ user: req.user._id, status: 'Paid' });
   }
-
-  //   async sucessPage(param: any) {
-  //     await this.webhook(param);
-  //     return { message: 'Done', param };
-  //   }
 }
