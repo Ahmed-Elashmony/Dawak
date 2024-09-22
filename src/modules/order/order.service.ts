@@ -79,8 +79,6 @@ export class OrderService {
 
     let event: any;
 
-    console.log('82', endpointSecret, sig);
-
     try {
       event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
     } catch (err) {
