@@ -14,7 +14,7 @@ export class OrderdbService {
   }
 
   async find(object: any): Promise<any> {
-    return await this.orderModel.find(object);
+    return await this.orderModel.find(object).sort({ createdAt: -1 });
   }
 
   async findOneAndPopulate(object: any): Promise<Order> {

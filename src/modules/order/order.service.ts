@@ -58,8 +58,8 @@ export class OrderService {
           },
           quantity: e.quantity,
         })),
-        success_url: `https://dawak-553b.vercel.app/order/success/${Order['_id']}`,
-        cancel_url: 'https://dawak-553b.vercel.app/order/cancel',
+        success_url: process.env.success_url,
+        cancel_url: process.env.cancel_url,
       });
 
       return { message: 'Done', link: seisson.url };
