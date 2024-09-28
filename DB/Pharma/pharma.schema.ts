@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
   toObject: { virtuals: true },
 })
 export class Pharma {
-  @Prop({ required: true, lowercase: true, unique: true })
+  @Prop({ required: true, unique: true })
   name: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
