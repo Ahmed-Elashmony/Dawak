@@ -36,7 +36,7 @@ export class UserService {
     const hashPass = await bcrypt.hash(body.password, +process.env.Salat_Round);
     body.password = hashPass;
 
-    const link = `http://localhost:3000/user/confirm/${activationCode}`;
+    const link = `${process.env.userUrl}/confirm/${activationCode}`;
 
     await sendEmail({
       to: body.email,
